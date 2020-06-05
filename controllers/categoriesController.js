@@ -71,20 +71,21 @@ const show = async (req, res) => {
 }
 
 // Catagories update controller
-const update = (req, res) => {
+const update = async (req, res) => {
   try {
     if (!req.session.currentUser) {
       // if no user so doesnt have access inside the new form
       return res.redirect('/auth/login');
     } else {
-   db.Category.findByIdAndUpdate(req.params.id, req.body, options, (err, updateCategory) => {
-      if (err) console.log('Error in category#update:', err)
-
+  const updateCategory = await db.Category.findByIdAndUpdate(
+     req.params.id,
+     req.body, 
+     {new: true});
       if(!updateCategory) return res.json({
-        message: 'No Category with that id found in database.'
+        message: 'No Category with that id updated.'
     })
       res.status(200).json({ category: updateCategory })
-  })
+  
 }
 } catch(err) {
   return res.status(500).json({
