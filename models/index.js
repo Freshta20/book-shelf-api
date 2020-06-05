@@ -15,5 +15,5 @@ mongoose.connect(connectionString, configOptions)
 
 module.exports = {
     User: require('./User'),
-    Catagory: require('./Catagory'),
+    Category: require('./Category'),
 }

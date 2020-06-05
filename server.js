@@ -31,6 +31,9 @@ app.use(session({
 //  ROUTES_______
 // Auth Routes
 app.use('/api/v1/auth', routes.auth)
+// Catagories rout
+app.use('/api/v1/categories', routes.categories)
+
 app.get('/', (req, res) => {
   res.send('Hello');
 })

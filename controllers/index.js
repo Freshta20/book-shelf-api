@@ -1,6 +1,6 @@
 module.exports = {
   books: require('./booksController'),
-  catagories: require('./catagoriesController'),
+  categories: require('./categoriesController'),
   users: require('./usersController'),
   auth: require('./authController')
 }
