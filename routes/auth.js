@@ -6,6 +6,7 @@ const ctrl = require('../controllers')
 router.get('/register', ctrl.auth.get_register)
 
 router.post('/register', ctrl.auth.register)
+router.post('/login', ctrl.auth.login)
 
 
 

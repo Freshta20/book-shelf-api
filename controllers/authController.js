@@ -48,7 +48,40 @@ const register = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  try{
+  const foundUser = await db.User.findOne({ email: req.body.email })
 
+  if(!foundUser){
+    return res.status(400).json({
+      status: 400,
+      message: "Invaid Credentials"
+    })
+  }
+  // check that password matches
+  const passwordsMatch = bcrypt.compareSync(req.body.password, foundUser.password);
+  if (!passwordsMatch) {
+    // wrong password, send back to login page
+    return res.render('auth/login', {
+      title: 'Login',
+      error: 'Invalid Credentials',
+    });
+  }
+  // if password do match
+  req.session.currentUser = foundUser._id;
+  return res.status(200).json({ 
+    status: 200,
+    message: "Logged in",
+    
+  })
+} catch(err) {
+  return res.status(500).json({
+    status: 500,
+    message: err
+    
+  })
+}
+}
 
 module.exports = {
   get_register,
