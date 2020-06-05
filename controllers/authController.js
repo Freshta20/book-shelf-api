@@ -5,8 +5,8 @@ const bcrypt = require('bcryptjs')
 const get_register = async (req, res) => {
   res.send('Hi')
 }
+// user register controller
 const register = async (req, res) => {
-  
   try {
   // check if the user exist
   const existingUser = await db.User.findOne({ email: req.body.email});
@@ -48,6 +48,7 @@ const register = async (req, res) => {
   }
 };
 
+// user login controller
 const login = async (req, res) => {
   try{
   const foundUser = await db.User.findOne({ email: req.body.email })
@@ -81,10 +82,24 @@ const login = async (req, res) => {
     
   })
 }
+};
+
+// user verify controller
+const verify =async (req, res) => {
+  if (!req.session.currentUser){ 
+   return res.status(401).json({
+    message: 'Unauthorized!'
+  })
+} else {
+  res.status(200).json({
+    message: `Current user verified with ID ${ req.session.currentUser }`
+  })
+ }
 }
 
 module.exports = {
   get_register,
   register, 
-  login
+  login,
+  verify
 }
