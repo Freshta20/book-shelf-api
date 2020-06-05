@@ -54,7 +54,27 @@ const create = async (req, res) => {
 
 // Catagories show controller
 const show = (req, res) => {
+  try {
+    if (!req.session.currentUser) {
+      // if no user so doesnt have access inside the new form
+      return res.redirect('/auth/login');
+    } else {
+   db.Category.findById(req.params.id, (err, foundCategory) => {
+      if (err) console.log('Error in category#create:', err)
 
+      if(!foundCategory) return res.json({
+        message: 'No Category found in database.'
+    })
+      res.status(200).json({ category: foundCategory })
+  })
+}
+} catch(err) {
+  return res.status(500).json({
+    status: 500,
+    message: err
+    
+  })
+} 
 }
 
 // Catagories update controller
@@ -71,7 +91,7 @@ const destroy = (req, res) => {
 module.exports = {
   index,
   create,
-  // show,
+  show,
   // update,
   // destroy
 }
