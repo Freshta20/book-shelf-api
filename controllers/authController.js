@@ -97,9 +97,34 @@ const verify =async (req, res) => {
  }
 }
 
+// user logout controller
+const logout =async (req, res) => {
+  try {
+  if (!req.session.currentUser) {
+    return res.status(401).json({
+    message: 'No user to log out!'
+  })
+} else {
+  await req.session.destroy();
+  res.status(200).json({
+    status:200,
+    message: "Logged out"
+  })
+ }
+}catch (err){
+  return res.status(500).json({
+    status: 500,
+    message: err
+    
+  })
+}
+}
+
+
 module.exports = {
   get_register,
   register, 
   login,
-  verify
+  verify,
+  logout
 }
