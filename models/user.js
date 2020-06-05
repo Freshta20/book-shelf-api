@@ -17,10 +17,10 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     required: true, 
   },
-  categories: {
+  categories: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'categories',
-  }
+    ref: 'Category',
+  }],
 })
 
 const User = mongoose.model('User', UserSchema)
