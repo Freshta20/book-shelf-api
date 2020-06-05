@@ -8,4 +8,5 @@ router.get('/register', ctrl.auth.get_register)
 router.post('/register', ctrl.auth.register)
 
 
+
 module.exports = router
