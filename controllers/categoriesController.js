@@ -7,16 +7,12 @@ const index = async (req, res) => {
       // send to login screen if not logged in
       return res.redirect('/auth/login');
     } else {
-  db.Category.find({}, (err, foundCategories) => {
-      if (err){ 
-        console.log('Error in Categories#index:', err)
-        }
+  const foundCategories= await db.Category.find();
       if(!foundCategories) return res.json({
           message: 'No Categories found in database.'
       })
 
       res.status(200).json({ categories: foundCategories });
-  })
 }
 } catch(err) {
   return res.status(500).json({
@@ -34,14 +30,12 @@ const create = async (req, res) => {
       // if no user so doesnt have access inside the new form
       return res.redirect('/auth/login');
     } else {
-  db.Category.create(req.body, (err, savedCategory) => {
-      if (err) console.log('Error in category#create:', err)
-
-      if(!savedCategory) return res.json({
+  const savedCategory = await db.Category.create(req.body);
+    if(!savedCategory) return res.json({
         message: 'No Category created in database.'
     })
       res.status(200).json({ category: savedCategory })
-  })
+  
 }
 } catch(err) {
   return res.status(500).json({
@@ -53,20 +47,19 @@ const create = async (req, res) => {
 }
 
 // Catagories show controller
-const show = (req, res) => {
+const show = async (req, res) => {
   try {
     if (!req.session.currentUser) {
       // if no user so doesnt have access inside the new form
       return res.redirect('/auth/login');
     } else {
-   db.Category.findById(req.params.id, (err, foundCategory) => {
-      if (err) console.log('Error in category#create:', err)
+  const foundCategory = await db.Category.findById(req.params.id);
 
       if(!foundCategory) return res.json({
         message: 'No Category found in database.'
     })
       res.status(200).json({ category: foundCategory })
-  })
+  
 }
 } catch(err) {
   return res.status(500).json({
@@ -79,7 +72,27 @@ const show = (req, res) => {
 
 // Catagories update controller
 const update = (req, res) => {
+  try {
+    if (!req.session.currentUser) {
+      // if no user so doesnt have access inside the new form
+      return res.redirect('/auth/login');
+    } else {
+   db.Category.findByIdAndUpdate(req.params.id, req.body, options, (err, updateCategory) => {
+      if (err) console.log('Error in category#update:', err)
 
+      if(!updateCategory) return res.json({
+        message: 'No Category with that id found in database.'
+    })
+      res.status(200).json({ category: updateCategory })
+  })
+}
+} catch(err) {
+  return res.status(500).json({
+    status: 500,
+    message: err
+    
+  })
+} 
 }
 
 // Catagories destroy controller
@@ -92,6 +105,6 @@ module.exports = {
   index,
   create,
   show,
-  // update,
+  update,
   // destroy
 }
