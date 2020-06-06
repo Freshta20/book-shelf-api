@@ -7,7 +7,7 @@ const index = async (req, res) => {
       // send to login screen if not logged in
       return res.redirect('/auth/login');
     } else {
-  const foundCategories= await db.Category.find();
+  const foundCategories = await db.Category.find();
       if(!foundCategories) return res.json({
           message: 'No Categories found in database.'
       })
@@ -17,7 +17,8 @@ const index = async (req, res) => {
 } catch(err) {
   return res.status(500).json({
     status: 500,
-    message: err
+    err,
+    message: 'Something went wrong! please try again'
     
   })
 }
