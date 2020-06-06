@@ -86,12 +86,23 @@ const update = async (req, res) => {
       // send to login screen if not logged in
       return res.redirect('/auth/login');
     } else {
-      
+      const updatedBook = await db.Book.findByIdAndUpdate(
+        req.params.id,
+        req.body, 
+        {new: true});
+         if(!updatedBook) return res.json({
+           message: 'No Book with that id updated.'
+       })
+         res.status(200).json({ 
+           book: updatedBook,
+           message: 'You update it succefully'
+           })
     }
 } catch(err) {
   return res.status(500).json({
     status: 500,
-    message: err
+    err,
+    message: 'Something went wrong! please try again'
     
   })
 }
@@ -119,6 +130,6 @@ module.exports = {
   index,
   create,
   show,
-  // update,
+  update,
   // destroy
 }
