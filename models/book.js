@@ -25,3 +25,7 @@ const BookSchema = new mongoose.Schema({
     ref: 'Category',
   },
 })
+
+const Book = mongoose.model('Book', BookSchema)
+
+module.exports = Book;
