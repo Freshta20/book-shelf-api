@@ -115,12 +115,20 @@ const destroy = async (req, res) => {
       // send to login screen if not logged in
       return res.redirect('/auth/login');
     } else {
-      
+      const deletedBook = await db.Book.findByIdAndDelete(req.params.id);
+      if(!deletedBook) return res.json({
+        message: 'No Book with that id deleted.'
+    })
+      res.status(200).json({ 
+        book: deletedBook,
+        message: 'You deleted it succefully'
+       })
     }
 } catch(err) {
   return res.status(500).json({
     status: 500,
-    message: err
+    err,
+    message: 'Something went wrong! please try again'
     
   })
 }
@@ -131,5 +139,5 @@ module.exports = {
   create,
   show,
   update,
-  // destroy
+  destroy
 }
