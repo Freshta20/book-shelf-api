@@ -33,6 +33,8 @@ app.use(session({
 app.use('/api/v1/auth', routes.auth)
 // Catagories rout
 app.use('/api/v1/categories', routes.categories)
+// Books rout
+app.use('/api/v1/books', routes.books)
 
 app.get('/', (req, res) => {
   res.send('Hello');
