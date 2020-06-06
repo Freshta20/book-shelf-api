@@ -97,8 +97,26 @@ const update = async (req, res) => {
 }
 
 // Catagories destroy controller
-const destroy = (req, res) => {
-
+const destroy = async (req, res) => {
+  try {
+    if (!req.session.currentUser) {
+      // if no user so doesnt have access inside the new form
+      return res.redirect('/auth/login');
+    } else {
+  const deletedCategory = await db.Category.findByIdAndDelete(req.params.id);
+      if(!deletedCategory) return res.json({
+        message: 'No Category with that id deleted.'
+    })
+      res.status(200).json({ category: deletedCategory })
+  
+}
+} catch(err) {
+  return res.status(500).json({
+    status: 500,
+    message: err
+    
+  })
+} 
 }
 
 // Export
@@ -107,5 +125,5 @@ module.exports = {
   create,
   show,
   update,
-  // destroy
+  destroy
 }
