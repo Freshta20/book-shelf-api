@@ -39,7 +39,7 @@ const create = async (req, res) => {
       })
         res.status(200).json({ 
           book: savedBook,
-          message: 'You add a books'
+          message: 'You add a books successfully'
         })  
     }
 } catch(err) {
@@ -59,12 +59,21 @@ const show = async (req, res) => {
       // send to login screen if not logged in
       return res.redirect('/auth/login');
     } else {
-      
+      const foundBook = await db.Book.findById(req.params.id);
+
+      if(!foundBook) return res.json({
+        message: 'No book found in database.'
+    })
+      res.status(200).json({ 
+        book: foundBook,
+        message: 'Here is your book'
+      })
     }
 } catch(err) {
   return res.status(500).json({
     status: 500,
-    message: err
+    err,
+    message: 'Something went wrong! please try again'
     
   })
 }
@@ -109,7 +118,7 @@ const destroy = async (req, res) => {
 module.exports = {
   index,
   create,
-  // show,
+  show,
   // update,
   // destroy
 }
