@@ -1,7 +1,8 @@
 const express = require('express');
-const ebodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const session = require('express-session');
+const cors = require('cors');
 require('dotenv').config();
 
 const MongoStore = require('connect-mongo')(session);
@@ -12,8 +13,22 @@ const port = process.env.PORT || 4000;
 
 // const db = require('./models');
 
+
+// MIDDLEWARE
+
+// CORS
+const corsOption = {
+  origin: ['http://localhost:4000'],
+  credentials: true,
+  optionSuccessStatus: 200
+}
+app.use(cors(corsOption));
+
 // Json middleware
 app.use(express.json());
+
+// BodyParser
+app.use(bodyParser.urlencoded({extended: false}));
 
 // set up the sessions with MongoStore
 const connectionString = process.env.MONGODB_URI || "mongodb://localhost:27017/Book-Shelf"
@@ -26,6 +41,9 @@ app.use(session({
   store: new MongoStore(
     // connection url
     { url: connectionString }),
+    cookie: {
+      maxAge: 1000* 3600 * 24, 
+    }
 }));
 
 //  ROUTES_______
