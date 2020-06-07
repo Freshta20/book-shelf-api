@@ -33,20 +33,30 @@ const create = async (req, res) => {
       // send to login screen if not logged in
       return res.redirect('/auth/login');
     } else {
-      const savedBook = await db.Book.create(req.body);
-      if(!savedBook) return res.json({
-          message: 'No Book added in this category.'
-      })
+      const newBook = await db.Book.create(req.body);
+      newBook.category = req.params.categoryid;
+      if(!newBook) return res.json({
+        message: 'No Book added in this category.'
+    })
+
+      const savedBook = await newBook.save();
+      const foundCategory = await db.Category.findById(req.params.categoryid);
+      foundCategory.books.push(savedBook._id);
+      const savedCategory = await foundCategory.save();
+      
         res.status(200).json({ 
           book: savedBook,
-          message: 'You add a books successfully'
+          category: savedCategory,
+          message: 'You add a book to this category'
         })  
     }
 } catch(err) {
   return res.status(500).json({
     status: 500,
+    title: 'New Photo',
+    categoryid: req.params.categoryid,
     err,
-    message: 'Something went wrong! please try again'
+    message: 'Please choose a file'
     
   })
 }
