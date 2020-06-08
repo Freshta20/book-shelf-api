@@ -6,7 +6,7 @@ const ctrl = require('../controllers');
 router.get('/', ctrl.books.index)
 router.post('/:categoryid/books/new', ctrl.books.create)
 router.get('/:categoryid/books/:id', ctrl.books.show)
-router.put('/:id', ctrl.books.update)
+router.put('/:categoryid/books/:id', ctrl.books.update)
 router.delete('/:id', ctrl.books.destroy)
 
 

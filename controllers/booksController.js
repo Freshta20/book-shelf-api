@@ -105,6 +105,7 @@ const update = async (req, res) => {
            message: 'No Book with that id updated.'
        })
          res.status(200).json({ 
+           title: 'Edit Book',
            book: updatedBook,
            message: 'You update it succefully'
            })
