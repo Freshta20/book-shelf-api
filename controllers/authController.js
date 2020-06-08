@@ -8,6 +8,7 @@ const get_register = async (req, res) => {
 // user register controller
 const register = async (req, res) => {
   try {
+    console.log(req.body)
   // check if the user exist
   const existingUser = await db.User.findOne({ email: req.body.email});
   if(existingUser) {

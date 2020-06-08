@@ -34,10 +34,12 @@ const create = async (req, res) => {
       // if no user so doesnt have access inside the new form
       return res.redirect('/auth/login');
     } else {
-  const savedCategory = await db.Category.create(req.body);
-    if(!savedCategory) return res.json({
+  const createCategory = await db.Category.create(req.body);
+    if(!createCategory) return res.json({
         message: 'No Category created in database.'
     })
+    createCategory.user = req.session.currentUser;
+    const savedCategory = await createCategory.save();
       res.status(200).json({ category: savedCategory })
   
 }
