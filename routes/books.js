@@ -7,7 +7,7 @@ router.get('/', ctrl.books.index)
 router.post('/:categoryid/books/new', ctrl.books.create)
 router.get('/:categoryid/books/:id', ctrl.books.show)
 router.put('/:categoryid/books/:id', ctrl.books.update)
-router.delete('/:id', ctrl.books.destroy)
+router.delete('/:categoryid/books/:id', ctrl.books.destroy)
 
 
 module.exports = router

@@ -130,7 +130,11 @@ const destroy = async (req, res) => {
       const deletedBook = await db.Book.findByIdAndDelete(req.params.id);
       if(!deletedBook) return res.json({
         message: 'No Book with that id deleted.'
-    })
+      })
+      const foundCategory = await db.Category.findById(req.params.categoryid);
+      const deletedBookIndex = foundCategory.books.pull({_id: req.params.id});
+      const savedCategory = await foundCategory.save();
+
       res.status(200).json({ 
         book: deletedBook,
         message: 'You deleted it succefully'
