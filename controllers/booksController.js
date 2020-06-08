@@ -69,12 +69,13 @@ const show = async (req, res) => {
       // send to login screen if not logged in
       return res.redirect('/auth/login');
     } else {
-      const foundBook = await db.Book.findById(req.params.id);
+      const foundBook = await db.Book.findById(req.params.id).populate('category');
 
       if(!foundBook) return res.json({
-        message: 'No book found in database.'
+        message: 'No book with this id found the category.'
     })
       res.status(200).json({ 
+        title: 'Book Detail',
         book: foundBook,
         message: 'Here is your book'
       })
