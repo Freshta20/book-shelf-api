@@ -7,12 +7,15 @@ const index = async (req, res) => {
       // send to login screen if not logged in
       return res.redirect('/auth/login');
     } else {
-  const foundCategories = await db.Category.find();
+  const foundCategories = await db.Category.find({ user: req.session.currentUser });
       if(!foundCategories) return res.json({
           message: 'No Categories found in database.'
       })
-
-      res.status(200).json({ categories: foundCategories });
+      const user = await db.User.findById(req.session.currentUser)
+      res.status(200).json({ 
+        title: 'Categories',
+        username: user.username,
+        categories: foundCategories });
 }
 } catch(err) {
   return res.status(500).json({
