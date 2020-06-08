@@ -64,7 +64,12 @@ const show = async (req, res) => {
       if(!foundCategory) return res.json({
         message: 'No Category found in database.'
     })
-      res.status(200).json({ category: foundCategory })
+  const categoryBooks = await db.Book.find({category: req.params.id})  
+      res.status(200).json({ 
+        title: 'Show',
+        category: foundCategory,
+        categoryBooks: categoryBooks
+      })
   
 }
 } catch(err) {
