@@ -74,7 +74,7 @@ const login = async (req, res) => {
   return res.status(200).json({ 
     status: 200,
     message: "Logged in",
-    
+    data: foundUser._id
   })
 } catch(err) {
   return res.status(500).json({

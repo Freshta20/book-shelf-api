@@ -64,7 +64,7 @@ const show = async (req, res) => {
       if(!foundCategory) return res.json({
         message: 'No Category found in database.'
     })
-  const categoryBooks = await db.Book.find({category: req.params.id})  
+  const categoryBooks = await db.Book.find({ category: req.params.id })  
       res.status(200).json({ 
         title: 'Show',
         category: foundCategory,
@@ -118,7 +118,12 @@ const destroy = async (req, res) => {
       if(!deletedCategory) return res.json({
         message: 'No Category with that id deleted.'
     })
-      res.status(200).json({ category: deletedCategory })
+
+  const deletedBooks = await db.Book.deleteMany({ category: req.params.id })  
+      res.status(200).json({ 
+        category: deletedCategory,
+        deletedBooks: deletedBooks
+      })
   
 }
 } catch(err) {
