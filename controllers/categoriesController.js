@@ -7,6 +7,7 @@ const index = async (req, res) => {
       // send to login screen if not logged in
       return res.redirect('/auth/login');
     } else {
+      console.log(req.session.currentUser)
   const foundCategories = await db.Category.find({ user: req.session.currentUser });
       if(!foundCategories) return res.json({
           message: 'No Categories found in database.'
@@ -16,7 +17,7 @@ const index = async (req, res) => {
         title: 'Categories',
         username: user.username,
         categories: foundCategories });
-}
+      }
 } catch(err) {
   return res.status(500).json({
     status: 500,
@@ -59,16 +60,17 @@ const show = async (req, res) => {
       // if no user so doesnt have access inside the new form
       return res.redirect('/auth/login');
     } else {
-  const foundCategory = await db.Category.findById(req.params.id);
+  const foundCategory = await db.Category.findById(req.params.id).populate({path: 'books'}).exec(
+    
+  );
 
       if(!foundCategory) return res.json({
         message: 'No Category found in database.'
     })
-  const categoryBooks = await db.Book.find({ category: req.params.id })  
+    console.log(foundCategory)
       res.status(200).json({ 
         title: 'Show',
         category: foundCategory,
-        categoryBooks: categoryBooks
       })
   
 }
