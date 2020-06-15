@@ -18,7 +18,7 @@ const port = process.env.PORT || 4000;
 
 // CORS
 const corsOption = {
-  origin: ['http://localhost:3000'],
+  origin: ['http://localhost:3000', 'https://book-shelf-client-fb.herokuapp.com'],
   credentials: true,
   optionSuccessStatus: 200
 }
