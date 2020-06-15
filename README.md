@@ -48,7 +48,7 @@ During our planning, we used figma to create wireframes for each page.
 8. New Book  
 <img src="./readme/Add-Book.png" height=350>
 9. View Book  
-<img src="./readme/Show-book.png" height=350>
+<img src="./readme/Show-Book.png" height=350>
 
 
 
