@@ -59,5 +59,5 @@ Imagerie uses 2 linked models
 2. Categories: one-to-many relationship with user
 2. Books: many-to-one relationship with user
 
-<img src="./readme/ERD.png">
+<img src="./ERD.png">
 
